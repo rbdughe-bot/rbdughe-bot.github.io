@@ -3,81 +3,121 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>7sn | Profile</title>
+    <title>_by : 76n</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Cairo', sans-serif;
         }
 
         body {
-            background-color: #0f0f12;
-            color: #ffffff;
+            /* خلفية الشاشة بالكامل مع تظليل مظلم لزيادة الغموض */
+            background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.85)), 
+                        url('bg.jpg') no-repeat center center fixed;
+            background-size: cover;
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
+            overflow: hidden;
+            color: #ff003c;
+        }
+
+        .container {
             text-align: center;
-        }
-
-        .card {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 40px;
-            border-radius: 16px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            max-width: 400px;
+            padding: 40px 30px;
+            background: rgba(0, 0, 0, 0.65);
+            border: 1px solid rgba(255, 0, 60, 0.3);
+            border-radius: 20px;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 0 30px rgba(255, 0, 60, 0.2);
+            max-width: 450px;
             width: 90%;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            animation: fadeIn 2s ease-in-out;
         }
 
-        h1 {
-            font-size: 2rem;
+        .main-text {
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: #ff1a1a;
+            text-shadow: 0 0 15px rgba(255, 0, 0, 0.8), 0 0 30px rgba(139, 0, 0, 0.6);
             margin-bottom: 10px;
-            color: #7289da;
+            letter-spacing: 1px;
         }
 
-        p {
-            font-size: 1.1rem;
-            color: #ccc;
-            margin-bottom: 25px;
-            line-height: 1.6;
+        .sub-text {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #e60000;
+            text-shadow: 0 0 10px rgba(230, 0, 0, 0.7);
+            direction: ltr;
+            margin-bottom: 30px;
         }
 
-        .play-btn {
-            background-color: #7289da;
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            font-size: 1rem;
-            border-radius: 8px;
+        /* زر مشغل الصوت */
+        .audio-control {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: rgba(20, 0, 0, 0.8);
+            border: 1px solid #ff003c;
+            color: #ff3333;
+            padding: 12px 28px;
+            border-radius: 30px;
             cursor: pointer;
-            transition: 0.3s ease;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(255, 0, 60, 0.2);
         }
 
-        .play-btn:hover {
-            background-color: #5b6eae;
+        .audio-control:hover {
+            background: #ff003c;
+            color: #000;
+            box-shadow: 0 0 25px rgba(255, 0, 60, 0.8);
             transform: scale(1.05);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
 <body>
-    
-    <!-- ملف الصوت -->
+
+    <div class="container">
+        <h1 class="main-text">تم شخلكم من قبل</h1>
+        <div class="sub-text">_by : 76n</div>
+
+        <button class="audio-control" onclick="toggleAudio()" id="play-btn">
+            <span id="btn-icon">▶</span> <span id="btn-text">تشغيل الصوت</span>
+        </button>
+    </div>
+
+    <!-- ملف الصوتية -->
     <audio id="bg-music" loop>
-        <source src="song.mp3" type="audio/mpeg">
+        <source src="audio.mp3" type="audio/mpeg">
     </audio>
 
     <script>
         const audio = document.getElementById('bg-music');
+        const btnIcon = document.getElementById('btn-icon');
+        const btnText = document.getElementById('btn-text');
 
         function toggleAudio() {
             if (audio.paused) {
                 audio.play();
+                btnIcon.innerHTML = '⏸';
+                btnText.innerHTML = 'إيقاف الصوت';
             } else {
                 audio.pause();
+                btnIcon.innerHTML = '▶';
+                btnText.innerHTML = 'تشغيل الصوت';
             }
         }
     </script>
