@@ -15,9 +15,9 @@
         }
 
         body {
-            /* خلفية الشاشة مع تظليل مظلم لزيادة الغموض */
+            /* خلفية الشاشة الكاملة باللون المظلم والغموض */
             background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.85)), 
-                        url('0ed499ba1a2d16899bafbb4db54c7550.jpg') no-repeat center center fixed;
+                        url('bg.jpg') no-repeat center center fixed;
             background-size: cover;
             min-height: 100vh;
             display: flex;
@@ -39,6 +39,11 @@
             max-width: 450px;
             width: 90%;
             animation: fadeIn 2s ease-in-out;
+            pointer-events: none; /* لتصل الضغطة خلف البطاقة في الشاشة */
+        }
+
+        .audio-control {
+            pointer-events: auto; /* إعادة التفاعل للزر */
         }
 
         .main-text {
@@ -59,7 +64,6 @@
             margin-bottom: 30px;
         }
 
-        /* زر مشغل الصوت */
         .audio-control {
             display: inline-flex;
             align-items: center;
@@ -97,7 +101,7 @@
         <div class="sub-text">_by : 76n</div>
 
         <button class="audio-control" onclick="event.stopPropagation(); toggleAudio();" id="play-btn">
-            <span id="btn-icon">▶</span> <span id="btn-text">تشغيل الصوت</span>
+            <span id="btn-icon">▶</span> <span id="btn-text">اضغط لتشغيل الصوت</span>
         </button>
     </div>
 
@@ -110,21 +114,17 @@
         const audio = document.getElementById('bg-music');
         const btnIcon = document.getElementById('btn-icon');
         const btnText = document.getElementById('btn-text');
-        let hasInteracted = false;
 
-        function startAudio() {
-            if (!hasInteracted) {
-                audio.play().then(() => {
-                    btnIcon.innerHTML = '⏸';
-                    btnText.innerHTML = 'إيقاف الصوت';
-                    hasInteracted = true;
-                }).catch(e => console.log("Autoplay blocked:", e));
-            }
+        function playMedia() {
+            audio.play().then(() => {
+                btnIcon.innerHTML = '⏸';
+                btnText.innerHTML = 'إيقاف الصوت';
+            }).catch(() => {});
         }
 
-        // تشغيل الصوت فور أن يضغط المستخدم في أي مكان بالصفحة
-        document.body.addEventListener('click', startAudio);
-        document.body.addEventListener('keydown', startAudio);
+        // تشغيل الصوت تلقائياً مع أول لمسة أو ضغطة بالصفحة
+        window.addEventListener('click', playMedia, { once: true });
+        window.addEventListener('touchstart', playMedia, { once: true });
 
         function toggleAudio() {
             if (audio.paused) {
