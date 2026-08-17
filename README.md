@@ -64,15 +64,7 @@
     </style>
 </head>
 <body>
-
-    <div class="card">
-        <h1>. ZERO , 7sn</h1>
-        <p>حياكم الله في صفحتي الخاصة، حبيت اسلم عليكم فقط لا غير يعطيك العافية جميعاً.</p>
-        
-        <!-- زر تشغيل الصوت -->
-        <button class="play-btn" onclick="toggleAudio()">🎵 تشغيل / إيقاف الصوت</button>
-    </div>
-
+    
     <!-- ملف الصوت -->
     <audio id="bg-music" loop>
         <source src="song.mp3" type="audio/mpeg">
