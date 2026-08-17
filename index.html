@@ -11,12 +11,13 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Cairo', sans-serif;
+            user-select: none;
         }
 
         body {
-            /* خلفية الشاشة بالكامل مع تظليل مظلم لزيادة الغموض */
+            /* خلفية الشاشة مع تظليل مظلم لزيادة الغموض */
             background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.85)), 
-                        url('bg.jpg') no-repeat center center fixed;
+                        url('0ed499ba1a2d16899bafbb4db54c7550.jpg') no-repeat center center fixed;
             background-size: cover;
             min-height: 100vh;
             display: flex;
@@ -24,6 +25,7 @@
             align-items: center;
             overflow: hidden;
             color: #ff003c;
+            cursor: pointer;
         }
 
         .container {
@@ -91,16 +93,16 @@
 <body>
 
     <div class="container">
-        <h1 class="main-text">تم شخلكم من قبل اموركم طيبه حبيت اسلم بس </h1>
-        <div class="sub-text">by : 76n_</div>
+        <h1 class="main-text">تم شخلكم من قبل</h1>
+        <div class="sub-text">_by : 76n</div>
 
-        <button class="audio-control" onclick="toggleAudio()" id="play-btn">
+        <button class="audio-control" onclick="event.stopPropagation(); toggleAudio();" id="play-btn">
             <span id="btn-icon">▶</span> <span id="btn-text">تشغيل الصوت</span>
         </button>
     </div>
 
     <!-- ملف الصوتية -->
-    <audio id="bg-music" loop>
+    <audio id="bg-music" loop preload="auto">
         <source src="7sn.mp3" type="audio/mpeg">
     </audio>
 
@@ -108,6 +110,21 @@
         const audio = document.getElementById('bg-music');
         const btnIcon = document.getElementById('btn-icon');
         const btnText = document.getElementById('btn-text');
+        let hasInteracted = false;
+
+        function startAudio() {
+            if (!hasInteracted) {
+                audio.play().then(() => {
+                    btnIcon.innerHTML = '⏸';
+                    btnText.innerHTML = 'إيقاف الصوت';
+                    hasInteracted = true;
+                }).catch(e => console.log("Autoplay blocked:", e));
+            }
+        }
+
+        // تشغيل الصوت فور أن يضغط المستخدم في أي مكان بالصفحة
+        document.body.addEventListener('click', startAudio);
+        document.body.addEventListener('keydown', startAudio);
 
         function toggleAudio() {
             if (audio.paused) {
