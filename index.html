@@ -15,7 +15,6 @@
         }
 
         body {
-            /* خلفية الشاشة الكاملة باللون المظلم والغموض */
             background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.85)), 
                         url('bg.jpg') no-repeat center center fixed;
             background-size: cover;
@@ -25,7 +24,30 @@
             align-items: center;
             overflow: hidden;
             color: #ff003c;
+        }
+
+        /* شاشة الدخول التفاعلية لتشغيل الصوت */
+        #enter-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.92);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             cursor: pointer;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .enter-text {
+            color: #ff003c;
+            font-size: 1.8rem;
+            font-weight: 900;
+            text-shadow: 0 0 20px #ff003c;
+            animation: pulse 1.5s infinite;
         }
 
         .container {
@@ -39,53 +61,29 @@
             max-width: 450px;
             width: 90%;
             animation: fadeIn 2s ease-in-out;
-            pointer-events: none; /* لتصل الضغطة خلف البطاقة في الشاشة */
-        }
-
-        .audio-control {
-            pointer-events: auto; /* إعادة التفاعل للزر */
         }
 
         .main-text {
-            font-size: 2.2rem;
+            font-size: 2rem;
             font-weight: 900;
             color: #ff1a1a;
             text-shadow: 0 0 15px rgba(255, 0, 0, 0.8), 0 0 30px rgba(139, 0, 0, 0.6);
             margin-bottom: 10px;
-            letter-spacing: 1px;
+            line-height: 1.4;
         }
 
         .sub-text {
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             font-weight: 700;
             color: #e60000;
             text-shadow: 0 0 10px rgba(230, 0, 0, 0.7);
             direction: ltr;
-            margin-bottom: 30px;
         }
 
-        .audio-control {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            background: rgba(20, 0, 0, 0.8);
-            border: 1px solid #ff003c;
-            color: #ff3333;
-            padding: 12px 28px;
-            border-radius: 30px;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            box-shadow: 0 0 15px rgba(255, 0, 60, 0.2);
-        }
-
-        .audio-control:hover {
-            background: #ff003c;
-            color: #000;
-            box-shadow: 0 0 25px rgba(255, 0, 60, 0.8);
-            transform: scale(1.05);
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.05); opacity: 1; }
+            100% { transform: scale(1); opacity: 0.8; }
         }
 
         @keyframes fadeIn {
@@ -96,46 +94,32 @@
 </head>
 <body>
 
-    <div class="container">
-        <h1 class="main-text">تم شخلكم الامور طيبه ياجماعة حياكم دسكورد </h1>
-        <div class="sub-text">by : 76n_</div>
-
-        <button class="audio-control" onclick="event.stopPropagation(); toggleAudio();" id="play-btn">
-            <span id="btn-icon">▶</span> <span id="btn-text">اضغط لتشغيل الصوت</span>
-        </button>
+    <!-- شاشة اللمس التفاعلية بالبداية -->
+    <div id="enter-overlay" onclick="enterSite()">
+        <div class="enter-text">[ اضغط في أي مكان للدخول ]</div>
     </div>
 
-    <!-- ملف الصوتية -->
+    <div class="container">
+        <h1 class="main-text">تم شخلكم الامور طيبه ياجماعة حياكم دسكورد</h1>
+        <div class="sub-text">by : 76n_</div>
+    </div>
+
+    <!-- ملف الصوت مخفي بالكامل -->
     <audio id="bg-music" loop preload="auto">
         <source src="7sn.mp3" type="audio/mpeg">
     </audio>
 
     <script>
         const audio = document.getElementById('bg-music');
-        const btnIcon = document.getElementById('btn-icon');
-        const btnText = document.getElementById('btn-text');
+        const overlay = document.getElementById('enter-overlay');
 
-        function playMedia() {
-            audio.play().then(() => {
-                btnIcon.innerHTML = '⏸';
-                btnText.innerHTML = 'إيقاف الصوت';
-            }).catch(() => {});
-        }
-
-        // تشغيل الصوت تلقائياً مع أول لمسة أو ضغطة بالصفحة
-        window.addEventListener('click', playMedia, { once: true });
-        window.addEventListener('touchstart', playMedia, { once: true });
-
-        function toggleAudio() {
-            if (audio.paused) {
-                audio.play();
-                btnIcon.innerHTML = '⏸';
-                btnText.innerHTML = 'إيقاف الصوت';
-            } else {
-                audio.pause();
-                btnIcon.innerHTML = '▶';
-                btnText.innerHTML = 'تشغيل الصوت';
-            }
+        function enterSite() {
+            // إخفاء الشاشة السوداء
+            overlay.style.opacity = '0';
+            overlay.style.visibility = 'hidden';
+            
+            // تشغيل الصوت في الخلفية تلقائياً
+            audio.play().catch(err => console.log(err));
         }
     </script>
 
